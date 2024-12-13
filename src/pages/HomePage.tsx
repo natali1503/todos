@@ -8,16 +8,21 @@ import { TaskList } from '../components/TaskList';
 import { useSelector } from 'react-redux';
 import { activeTasks, selectTasks } from '../stor/selectors';
 import { useDispatch } from 'react-redux';
-import { clearCompletedTasksRedux } from '../localStorage/localStorageRedux';
+import { clearCompletedTasksRedux, saveToLocalStoragesRedux } from '../localStorage/localStorageRedux';
 import { TasksDispatch } from '../stor/taskStore';
 export function HomePage() {
   const [taskText, setTaskText] = useState<string>('');
   const task = useSelector(selectTasks);
   const [displayOption, setDisplayOption] = useState<string>('All');
   const dispatch = useDispatch<TasksDispatch>();
+  const quantityActiveTasks = activeTasks();
 
   function handleClearCompleted() {
     dispatch(clearCompletedTasksRedux());
+  }
+  function handleAddTask() {
+    if (taskText.length === 0) return;
+    dispatch(saveToLocalStoragesRedux(taskText));
   }
 
   return (
@@ -40,13 +45,13 @@ export function HomePage() {
           </Typography>
         </Box>
         <Box display={'flex'} flexDirection={'column'} sx={{ backgroundColor: ' #fff' }}>
-          <TaskInput taskText={taskText} setTaskText={setTaskText} />
+          <TaskInput taskText={taskText} setTaskText={setTaskText} handleClickAdd={() => handleAddTask()} />
 
           {task.length === 0 ? <div>Not task</div> : <TaskList taskList={task} />}
 
           <Box display={'flex'} flexDirection={'row'} gap={'40px'} alignItems={'center'} sx={{ margin: '0 10px' }}>
             <Box minWidth={'max-content'}>
-              <p>{activeTasks()} items left</p>
+              <p>{quantityActiveTasks} items left</p>
             </Box>
 
             <PanelButtons activeBtn={displayOption} onClick={setDisplayOption} />
