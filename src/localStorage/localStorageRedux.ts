@@ -1,15 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { defaultState, ITask, ITasksState, StatusTask } from '../stor/taskSlice';
+import { defaultTask, ITask, ITasksState, StatusTask } from '../stor/taskSlice';
 import { loadFromLocalStorage } from './loadFromLocalStorage';
 import { saveToLocalStorage } from './saveToLocalStorage';
 
 export const loadToLocalStorageRedux = createAsyncThunk<ITasksState>('task/loadToLocalStorage', async () => {
   try {
     const dataFromLocalStorage: ITasksState | null = loadFromLocalStorage('todos');
-    return dataFromLocalStorage || defaultState;
+    return dataFromLocalStorage || defaultTask;
   } catch (error) {
     console.error('Failed to load data from localStorage:', error);
-    return defaultState;
+    return defaultTask;
   }
 });
 
@@ -22,10 +22,10 @@ export const selectActiveTasksRedux = createAsyncThunk<ITasksState>('task/select
         data: dataFromLocalStorage.data.filter((taskItem) => taskItem.status === StatusTask.active),
       };
       return temp;
-    } else return defaultState;
+    } else return defaultTask;
   } catch (error) {
     console.error('Failed to load data from localStorage:', error);
-    return defaultState;
+    return defaultTask;
   }
 });
 
@@ -38,10 +38,10 @@ export const selectCopmletedTasksRedux = createAsyncThunk<ITasksState>('task/sel
         data: dataFromLocalStorage.data.filter((taskItem) => taskItem.status === StatusTask.completed),
       };
       return temp;
-    } else return defaultState;
+    } else return defaultTask;
   } catch (error) {
     console.error('Failed to load data from localStorage:', error);
-    return defaultState;
+    return defaultTask;
   }
 });
 export const clearCompletedTasksRedux = createAsyncThunk<ITasksState>('task/clearCompleted', async () => {
@@ -54,10 +54,10 @@ export const clearCompletedTasksRedux = createAsyncThunk<ITasksState>('task/clea
       };
       saveToLocalStorage('todos', temp);
       return temp;
-    } else return defaultState;
+    } else return defaultTask;
   } catch (error) {
     console.error('Failed to load data from localStorage:', error);
-    return defaultState;
+    return defaultTask;
   }
 });
 
@@ -77,10 +77,10 @@ export const saveToLocalStoragesRedux = createAsyncThunk('task/saveToLocalStorag
       };
       saveToLocalStorage('todos', temp);
       return temp;
-    } else return defaultState;
+    } else return defaultTask;
   } catch (error) {
     console.error('Failed to load data from localStorage:', error);
-    return defaultState;
+    return defaultTask;
   }
 });
 export const changeTaskStatusRedux = createAsyncThunk('task/changeTaskStatus', async (id: number) => {
@@ -99,9 +99,9 @@ export const changeTaskStatusRedux = createAsyncThunk('task/changeTaskStatus', a
       };
       saveToLocalStorage('todos', temp);
       return temp;
-    } else return defaultState;
+    } else return defaultTask;
   } catch (error) {
     console.error('Failed to load data from localStorage:', error);
-    return defaultState;
+    return defaultTask;
   }
 });

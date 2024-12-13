@@ -6,14 +6,16 @@ import { useState } from 'react';
 
 import { TaskList } from '../components/TaskList';
 import { useSelector } from 'react-redux';
-import { activeTasks, selectTasks } from '../stor/selectors';
+import { activeTasks, selectTasks, selectFilter } from '../stor/selectors';
 import { useDispatch } from 'react-redux';
 import { clearCompletedTasksRedux, saveToLocalStoragesRedux } from '../localStorage/localStorageRedux';
 import { TasksDispatch } from '../stor/taskStore';
+import { changeFilter, FilterTasks } from '../stor/taskSlice';
+
 export function HomePage() {
   const [taskText, setTaskText] = useState<string>('');
   const task = useSelector(selectTasks);
-  const [displayOption, setDisplayOption] = useState<string>('All');
+  const filter = useSelector(selectFilter);
   const dispatch = useDispatch<TasksDispatch>();
   const quantityActiveTasks = activeTasks();
 
@@ -23,6 +25,11 @@ export function HomePage() {
   function handleAddTask() {
     if (taskText.length === 0) return;
     dispatch(saveToLocalStoragesRedux(taskText));
+    setTaskText('');
+  }
+
+  function handleChangeFilter(filter: FilterTasks) {
+    dispatch(changeFilter(filter));
   }
 
   return (
@@ -54,7 +61,7 @@ export function HomePage() {
               <p>{quantityActiveTasks} items left</p>
             </Box>
 
-            <PanelButtons activeBtn={displayOption} onClick={setDisplayOption} />
+            <PanelButtons activeBtn={filter} onClick={handleChangeFilter} />
             <CustomButton text='Clear completed' cb={handleClearCompleted} />
           </Box>
         </Box>

@@ -7,30 +7,48 @@ import {
   loadToLocalStorageRedux as selectAllTasks,
 } from '../localStorage/localStorageRedux';
 import { TasksDispatch } from '../stor/taskStore';
+import { FilterTasks } from '../stor/taskSlice';
 
 interface IPanelButtons {
-  activeBtn: string;
-  onClick: (name: string) => void;
+  activeBtn: FilterTasks;
+  onClick: (filter: FilterTasks) => void;
 }
 export const PanelButtons: React.FC<IPanelButtons> = ({ activeBtn, onClick }) => {
   const dispatch = useDispatch<TasksDispatch>();
 
-  function handleChoice(type: string) {
-    if (type === 'All') dispatch(selectAllTasks());
-    if (type === 'Active') {
-      dispatch(selectActiveTasks());
+  const filterActions = {
+    [FilterTasks.all]: () => dispatch(selectAllTasks()),
+    [FilterTasks.active]: () => dispatch(selectActiveTasks()),
+    [FilterTasks.completed]: () => dispatch(selectCopmletedTasks()),
+  };
+
+  function handleChoice(filter: FilterTasks) {
+    const action = filterActions[filter];
+    if (action) {
+      action();
+      onClick(filter);
+    } else {
+      console.warn('Unknown filter:', filter);
     }
-    if (type === 'Completed') {
-      dispatch(selectCopmletedTasks());
-    }
-    onClick(type);
   }
 
   return (
-    <Box display={'flex'} flexDirection={'row'} gap={'10px'} alignItems={'center'}>
-      <CustomButton text={'All'} cb={() => handleChoice('All')} status={activeBtn === 'All'} />
-      <CustomButton text={'Active'} cb={() => handleChoice('Active')} status={activeBtn === 'Active'} />
-      <CustomButton text={'Completed'} cb={() => handleChoice('Completed')} status={activeBtn === 'Completed'} />
+    <Box display='flex' flexDirection='row' gap='10px' alignItems='center'>
+      <CustomButton
+        text={FilterTasks.all}
+        cb={() => handleChoice(FilterTasks.all)}
+        status={activeBtn === FilterTasks.all}
+      />
+      <CustomButton
+        text={FilterTasks.active}
+        cb={() => handleChoice(FilterTasks.active)}
+        status={activeBtn === FilterTasks.active}
+      />
+      <CustomButton
+        text={FilterTasks.completed}
+        cb={() => handleChoice(FilterTasks.completed)}
+        status={activeBtn === FilterTasks.completed}
+      />
     </Box>
   );
 };

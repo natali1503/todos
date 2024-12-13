@@ -7,7 +7,7 @@
 # todos
 
 Просто todo приложение.
-Создавалось в рамках выполнения [тествого задания](https://docs.google.com/document/d/15QkApDkQqtzLSVW7Fpyluwj-BvUIHFXBjvvFCe77Aaw/edit?tab=t.0#heading=h.mw58pjqmst9d).
+Создавалось в рамках выполнения тествого задания
 
 [Демо]()
 

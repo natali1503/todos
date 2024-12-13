@@ -3,6 +3,7 @@ import { RootState } from '../stor/taskStore';
 import { ITasksState, StatusTask } from './taskSlice';
 
 export const selectTasks = (state: RootState) => state.tasks.data;
+export const selectFilter = (state: RootState) => state.tasks.filter;
 
 export const activeTasks = () => {
   const task = loadFromLocalStorage<ITasksState>('todos');

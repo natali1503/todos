@@ -13,7 +13,11 @@ export enum StatusTask {
   active = 'active',
   completed = 'completed',
 }
-
+export enum FilterTasks {
+  all = 'All',
+  completed = 'Completed',
+  active = 'Active',
+}
 export interface ITask {
   idTask: number;
   task: string;
@@ -24,25 +28,24 @@ export interface ITasksState {
   data: ITask[];
 }
 
-export const defaultState: ITasksState = {
+export const defaultTask: ITasksState = {
   data: [],
 };
+interface IInitialState extends ITasksState {
+  filter: FilterTasks;
+}
 
-const initialState: ITasksState = loadFromLocalStorage<ITasksState>('todos') || defaultState;
+const initialState: IInitialState = {
+  data: loadFromLocalStorage<ITasksState>('todos')?.data || defaultTask.data,
+  filter: FilterTasks.all,
+};
 const taskSlice = createSlice({
   name: 'counter',
   initialState,
   reducers: {
-    changeTaskStatus: (state, actions: PayloadAction<number>) => {
+    changeFilter: (state, actions: PayloadAction<FilterTasks>) => {
       if (!state) return;
-      const temp = [
-        ...state.data.map((taskItem) =>
-          taskItem.idTask === actions.payload
-            ? { ...taskItem, status: taskItem.status === StatusTask.active ? StatusTask.completed : StatusTask.active }
-            : taskItem
-        ),
-      ];
-      state.data = temp;
+      state.filter = actions.payload;
     },
   },
   extraReducers: (builder) => {
@@ -62,9 +65,16 @@ const taskSlice = createSlice({
       state.data = action.payload.data;
     });
     builder.addCase(saveToLocalStoragesRedux.fulfilled, (state, action) => {
-      state.data = action.payload.data;
+      if (state.filter === FilterTasks.all) state.data = action.payload.data;
+      else if (state.filter === FilterTasks.active) {
+        const filter = action.payload.data.filter((taskItem) => taskItem.status === StatusTask.active);
+        state.data = filter;
+      } else if (state.filter === FilterTasks.completed) {
+        const filter = action.payload.data.filter((taskItem) => taskItem.status === StatusTask.completed);
+        state.data = filter;
+      }
     });
   },
 });
-
+export const { changeFilter } = taskSlice.actions;
 export default taskSlice.reducer;
