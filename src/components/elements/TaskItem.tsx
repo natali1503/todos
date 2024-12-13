@@ -4,14 +4,24 @@ import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 interface TaskItemProps {
+  id: number;
   text: string;
   checked: boolean;
+  onChange: (id: number) => void;
 }
-export const TaskItem: React.FC<TaskItemProps> = ({ text, checked }) => {
+export const TaskItem: React.FC<TaskItemProps> = ({ id, text, checked, onChange }) => {
+  const handleOnChange = () => {
+    onChange(id);
+  };
   return (
     <FormControlLabel
       control={
-        <Checkbox checked={checked} icon={<RadioButtonUncheckedIcon />} checkedIcon={<CheckCircleOutlineIcon />} />
+        <Checkbox
+          onChange={handleOnChange}
+          checked={checked}
+          icon={<RadioButtonUncheckedIcon />}
+          checkedIcon={<CheckCircleOutlineIcon />}
+        />
       }
       label={text}
       sx={{

@@ -1,50 +1,70 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { loadFromLocalStorage } from '../localStorage/loadFromLocalStorage';
+import {
+  loadToLocalStorageRedux,
+  selectActiveTasksRedux,
+  selectCopmletedTasksRedux,
+  clearCompletedTasksRedux,
+  changeTaskStatusRedux,
+  saveToLocalStoragesRedux,
+} from '../localStorage/localStorageRedux';
 
-type TStatusTask = 'completed' | 'active';
-
-export const StatusTask = {
-  completed: 'completed' as const,
-  active: 'active' as const,
-};
+export enum StatusTask {
+  active = 'active',
+  completed = 'completed',
+}
 
 export interface ITask {
   idTask: number;
   task: string;
-  status: TStatusTask;
+  status: StatusTask;
 }
 
-export interface IInitialState {
+export interface ITasksState {
   data: ITask[];
 }
 
-const initialState: IInitialState = {
-  data: [
-    { idTask: 1, task: 'Диплой', status: 'active' },
-    { idTask: 2, task: 'Дописать приложение', status: 'active' },
-    { idTask: 3, task: 'Написать тесты', status: 'active' },
-  ],
+export const defaultState: ITasksState = {
+  data: [],
 };
 
+const initialState: ITasksState = loadFromLocalStorage<ITasksState>('todos') || defaultState;
 const taskSlice = createSlice({
   name: 'counter',
   initialState,
   reducers: {
-    changeTaskStatus: (state, actions: PayloadAction<string>) => {
-      console.log(actions.payload);
-      // {
-      //         ...state,
-      //         data: prevState.data.map((taskItem) =>
-      //           taskItem.idTask === id
-      //             ? { ...taskItem, status: taskItem.status === StatusTask.active ? StatusTask.completed : StatusTask.active }
-      //             : taskItem
-      //         ),
-      //       }
+    changeTaskStatus: (state, actions: PayloadAction<number>) => {
+      if (!state) return;
+      const temp = [
+        ...state.data.map((taskItem) =>
+          taskItem.idTask === actions.payload
+            ? { ...taskItem, status: taskItem.status === StatusTask.active ? StatusTask.completed : StatusTask.active }
+            : taskItem
+        ),
+      ];
+      state.data = temp;
     },
-    addTask: (state, actions: PayloadAction<ITask>) => {
-      state.data.push(actions.payload);
-    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(loadToLocalStorageRedux.fulfilled, (state, action) => {
+      state.data = action.payload.data;
+    });
+    builder.addCase(selectActiveTasksRedux.fulfilled, (state, action) => {
+      state.data = action.payload.data;
+    });
+    builder.addCase(selectCopmletedTasksRedux.fulfilled, (state, action) => {
+      state.data = action.payload.data;
+    });
+    builder.addCase(clearCompletedTasksRedux.fulfilled, (state, action) => {
+      state.data = action.payload.data;
+    });
+    builder.addCase(changeTaskStatusRedux.fulfilled, (state, action) => {
+      state.data = action.payload.data;
+    });
+    builder.addCase(saveToLocalStoragesRedux.fulfilled, (state, action) => {
+      state.data = action.payload.data;
+    });
   },
 });
 
-// export const { increment, decrement } = taskSlice.actions;
 export default taskSlice.reducer;

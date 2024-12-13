@@ -1,5 +1,6 @@
-import { IconButton, Input } from "@mui/material";
-import { HighlightOff } from "@mui/icons-material";
+import { IconButton, Input } from '@mui/material';
+import { HighlightOff } from '@mui/icons-material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 interface ITaskInputProps {
   taskText: string;
@@ -11,7 +12,7 @@ export const TaskInput: React.FC<ITaskInputProps> = ({ taskText, setTaskText }) 
     setTaskText(event.target.value);
   };
   const handleClick = () => {
-    setTaskText("");
+    setTaskText('');
   };
 
   return (
@@ -19,11 +20,19 @@ export const TaskInput: React.FC<ITaskInputProps> = ({ taskText, setTaskText }) 
       placeholder='What needs to be done?'
       value={taskText}
       onChange={handleInputChange}
+      startAdornment={<ExpandMoreIcon sx={{ color: '#acacac' }} />}
       endAdornment={
-        <IconButton onClick={handleClick} sx={{ visibility: taskText ? "visible" : "hidden" }}>
+        <IconButton onClick={handleClick} sx={{ visibility: taskText ? 'visible' : 'hidden' }}>
           <HighlightOff />
         </IconButton>
       }
+      sx={{
+        padding: '0 10px',
+        backgroundColor: '#fff',
+        '& .MuiInputBase-input::placeholder': {
+          fontStyle: 'italic',
+        },
+      }}
     />
   );
 };

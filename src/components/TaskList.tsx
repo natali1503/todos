@@ -1,19 +1,28 @@
 import { Box } from '@mui/material';
-import { IInitialState, StatusTask } from '../stor/taskSlice';
+import { ITask, StatusTask } from '../stor/taskSlice';
 import { TaskItem } from './elements/TaskItem';
+import { useDispatch } from 'react-redux';
+import { changeTaskStatusRedux } from '../localStorage/localStorageRedux';
+import { TasksDispatch } from '../stor/taskStore';
 
 interface ITaskListProps {
-  taskList: IInitialState;
+  taskList: ITask[];
 }
 
 export const TaskList: React.FC<ITaskListProps> = ({ taskList }) => {
+  const dispatch = useDispatch<TasksDispatch>();
+
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', width: '90%' }}>
-      {taskList.data.map((taskItem) => (
+    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+      {taskList.map((taskItem) => (
         <TaskItem
           text={taskItem.task}
           key={taskItem.idTask}
+          id={taskItem.idTask}
           checked={taskItem.status === StatusTask.completed ? true : false}
+          onChange={(id) => {
+            dispatch(changeTaskStatusRedux(id));
+          }}
         />
       ))}
     </Box>
