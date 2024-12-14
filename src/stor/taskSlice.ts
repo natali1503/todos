@@ -8,6 +8,7 @@ import {
   changeTaskStatusRedux,
   saveToLocalStoragesRedux,
 } from '../localStorage/localStorageRedux';
+import { keyForLocalStorage } from '../general/constants/keyForLocalStorage';
 
 export enum StatusTask {
   active = 'active',
@@ -36,7 +37,7 @@ interface IInitialState extends ITasksState {
 }
 
 const initialState: IInitialState = {
-  data: loadFromLocalStorage<ITasksState>('todos')?.data || defaultTask.data,
+  data: loadFromLocalStorage<ITasksState>(keyForLocalStorage.todos)?.data || defaultTask.data,
   filter: FilterTasks.all,
 };
 const taskSlice = createSlice({
