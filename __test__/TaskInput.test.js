@@ -5,8 +5,8 @@ import { dataInitial } from '../src/init';
 const mockedStore = store();
 const initialState = dataInitial;
 describe('', () => {
-  it('', () => {});
-  it('should render the app with the initialState', () => {
+  it('TaskInput', () => {});
+  it('TaskInput display test', () => {
     render(<App />, initialState);
 
     const TaskInput = screen.queryByTestId('TaskInput');
