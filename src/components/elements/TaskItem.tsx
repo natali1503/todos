@@ -16,6 +16,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({ id, text, checked, onChange 
   };
   return (
     <FormControlLabel
+      data-testid={'taskItem'}
       control={
         <Checkbox
           onChange={handleOnChange}
