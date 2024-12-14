@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { ITasksState, StatusTask } from './stor/taskSlice';
+import { ITask, ITasksState } from './stor/taskSlice';
 import { saveToLocalStoragesRedux } from './localStorage/localStorageRedux';
 import { loadFromLocalStorage } from './localStorage/loadFromLocalStorage';
 
@@ -14,11 +14,6 @@ export const initializeTasks = createAsyncThunk<void, void, { state: { tasks: IT
     });
   }
 );
-
-export const dataInitial: ITasksState = {
-  data: [
-    { idTask: '1', task: 'Деплой', status: StatusTask.completed },
-    { idTask: '2', task: 'Дописать приложение', status: StatusTask.active },
-    { idTask: '3', task: 'Написать тесты', status: StatusTask.active },
-  ],
+export const dataInitial: { data: Pick<ITask, 'task'>[] } = {
+  data: [{ task: 'Деплой' }, { task: 'Дописать приложение' }, { task: 'Написать тесты' }],
 };
