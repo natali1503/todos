@@ -21,11 +21,12 @@ export const TaskItem: React.FC<TaskItemProps> = ({ id, text, checked, onChange 
           onChange={handleOnChange}
           checked={checked}
           icon={<RadioButtonUncheckedIcon />}
-          checkedIcon={<CheckCircleOutlineIcon />}
+          checkedIcon={<CheckCircleOutlineIcon sx={{ color: '#76c0b1' }} />}
         />
       }
       label={text}
       sx={{
+        color: checked ? ' rgb(180, 175, 175)' : '#000',
         backgroundColor: '#fff',
         borderBottom: '1px solid #acacac',
         width: '100%',
