@@ -9,11 +9,11 @@ import {
 import { TasksDispatch } from '../stor/taskStore';
 import { FilterTasks } from '../stor/taskSlice';
 
-interface IPanelButtons {
+interface IFilterPanelProps {
   activeBtn: FilterTasks;
   onClick: (filter: FilterTasks) => void;
 }
-export const PanelButtons: React.FC<IPanelButtons> = ({ activeBtn, onClick }) => {
+export const FilterPanel: React.FC<IFilterPanelProps> = ({ activeBtn, onClick }) => {
   const dispatch = useDispatch<TasksDispatch>();
 
   const filterActions = {

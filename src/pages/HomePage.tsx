@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { PanelButtons } from '../components/PanelButtons';
+import { FilterPanel } from '../components/FilterPanel';
 import { CustomButton } from '../components/elements/CustomButton';
 import { TaskInput } from '../components/TaskInput';
 import { useState } from 'react';
@@ -61,7 +61,7 @@ export function HomePage() {
               <p>{quantityActiveTasks} items left</p>
             </Box>
 
-            <PanelButtons activeBtn={filter} onClick={handleChangeFilter} />
+            <FilterPanel activeBtn={filter} onClick={handleChangeFilter} />
             <CustomButton text='Clear completed' cb={handleClearCompleted} />
           </Box>
         </Box>

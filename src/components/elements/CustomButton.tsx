@@ -1,11 +1,11 @@
 import Button from '@mui/material/Button';
-interface ICustomButton {
+interface ICustomButtonProps {
   text: string;
   cb: () => void;
   status?: boolean;
 }
 
-export const CustomButton: React.FC<ICustomButton> = ({ text, cb, status = false }) => {
+export const CustomButton: React.FC<ICustomButtonProps> = ({ text, cb, status = false }) => {
   return (
     <Button
       onClick={cb}
