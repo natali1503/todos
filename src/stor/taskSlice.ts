@@ -59,10 +59,24 @@ const taskSlice = createSlice({
       state.data = action.payload.data;
     });
     builder.addCase(clearCompletedTasksRedux.fulfilled, (state, action) => {
-      state.data = action.payload.data;
+      if (state.filter === FilterTasks.all) state.data = action.payload.data;
+      else if (state.filter === FilterTasks.active) {
+        const filter = action.payload.data.filter((taskItem) => taskItem.status === StatusTask.active);
+        state.data = filter;
+      } else if (state.filter === FilterTasks.completed) {
+        const filter = action.payload.data.filter((taskItem) => taskItem.status === StatusTask.completed);
+        state.data = filter;
+      }
     });
     builder.addCase(changeTaskStatusRedux.fulfilled, (state, action) => {
-      state.data = action.payload.data;
+      if (state.filter === FilterTasks.all) state.data = action.payload.data;
+      else if (state.filter === FilterTasks.active) {
+        const filter = action.payload.data.filter((taskItem) => taskItem.status === StatusTask.active);
+        state.data = filter;
+      } else if (state.filter === FilterTasks.completed) {
+        const filter = action.payload.data.filter((taskItem) => taskItem.status === StatusTask.completed);
+        state.data = filter;
+      }
     });
     builder.addCase(saveToLocalStoragesRedux.fulfilled, (state, action) => {
       if (state.filter === FilterTasks.all) state.data = action.payload.data;
