@@ -2,12 +2,13 @@ import { Checkbox, FormControlLabel } from '@mui/material';
 
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import { IdTaskType } from '../../stor/taskSlice';
 
 interface TaskItemProps {
-  id: number;
+  id: IdTaskType;
   text: string;
   checked: boolean;
-  onChange: (id: number) => void;
+  onChange: (id: IdTaskType) => void;
 }
 export const TaskItem: React.FC<TaskItemProps> = ({ id, text, checked, onChange }) => {
   const handleOnChange = () => {
@@ -29,6 +30,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({ id, text, checked, onChange 
         borderBottom: '1px solid #acacac',
         width: '100%',
         margin: 0,
+        textDecoration: checked ? 'line-through' : 'none',
       }}
     />
   );
