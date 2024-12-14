@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 import { TaskList } from '../components/TaskList';
 import { useSelector } from 'react-redux';
-import { activeTasks, selectTasks, selectFilter } from '../stor/selectors';
+import { ActiveTasks, selectFilter, selectTasks } from '../stor/selectors';
 import { useDispatch } from 'react-redux';
 import { clearCompletedTasksRedux, saveToLocalStoragesRedux } from '../localStorage/localStorageRedux';
 import { TasksDispatch } from '../stor/taskStore';
@@ -17,7 +17,7 @@ export function HomePage() {
   const task = useSelector(selectTasks);
   const filter = useSelector(selectFilter);
   const dispatch = useDispatch<TasksDispatch>();
-  const quantityActiveTasks = activeTasks();
+  const quantityActiveTasks = ActiveTasks();
 
   function handleClearCompleted() {
     dispatch(clearCompletedTasksRedux());

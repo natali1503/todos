@@ -19,11 +19,11 @@ export enum FilterTasks {
   active = 'Active',
 }
 export interface ITask {
-  idTask: number;
+  idTask: string;
   task: string;
   status: StatusTask;
 }
-
+export type IdTaskType = ITask['idTask'];
 export interface ITasksState {
   data: ITask[];
 }

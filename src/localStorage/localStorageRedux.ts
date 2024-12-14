@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { defaultTask, ITask, ITasksState, StatusTask } from '../stor/taskSlice';
+import { defaultTask, IdTaskType, ITask, ITasksState, StatusTask } from '../stor/taskSlice';
 import { loadFromLocalStorage } from './loadFromLocalStorage';
 import { saveToLocalStorage } from './saveToLocalStorage';
 
@@ -64,12 +64,12 @@ export const clearCompletedTasksRedux = createAsyncThunk<ITasksState>('task/clea
 export const saveToLocalStoragesRedux = createAsyncThunk('task/saveToLocalStorage', async (taskText: string) => {
   try {
     const dataFromLocalStorage: ITasksState | null = loadFromLocalStorage('todos');
+    const newTask: ITask = {
+      idTask: `${Date.now()}-${Math.floor(Math.random() * 10000)}`,
+      task: taskText,
+      status: StatusTask.active,
+    };
     if (dataFromLocalStorage) {
-      const newTask: ITask = {
-        idTask: dataFromLocalStorage.data.length + 1,
-        task: taskText,
-        status: StatusTask.active,
-      };
       const updatedTasks = [...dataFromLocalStorage.data, newTask];
       const temp = {
         ...dataFromLocalStorage,
@@ -77,13 +77,19 @@ export const saveToLocalStoragesRedux = createAsyncThunk('task/saveToLocalStorag
       };
       saveToLocalStorage('todos', temp);
       return temp;
-    } else return defaultTask;
+    } else {
+      const temp = {
+        data: [newTask],
+      };
+      saveToLocalStorage('todos', temp);
+      return temp;
+    }
   } catch (error) {
     console.error('Failed to load data from localStorage:', error);
     return defaultTask;
   }
 });
-export const changeTaskStatusRedux = createAsyncThunk('task/changeTaskStatus', async (id: number) => {
+export const changeTaskStatusRedux = createAsyncThunk('task/changeTaskStatus', async (id: IdTaskType) => {
   try {
     const dataFromLocalStorage: ITasksState | null = loadFromLocalStorage('todos');
     if (dataFromLocalStorage) {
