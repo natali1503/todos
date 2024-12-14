@@ -3,7 +3,7 @@ import { HomePage } from './pages/HomePage';
 import React, { useEffect } from 'react';
 import { initializeTasks } from './init';
 import { useDispatch } from 'react-redux';
-import { TasksDispatch } from './stor/taskStore';
+import { TasksDispatch } from './store/taskStore';
 function App() {
   const dispatch = useDispatch<TasksDispatch>();
   useEffect(() => {

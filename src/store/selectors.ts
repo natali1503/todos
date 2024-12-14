@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 
-import { RootState } from '../stor/taskStore';
+import { RootState } from './taskStore';
 import { StatusTask } from './taskSlice';
 
 export const selectTasks = (state: RootState) => state.tasks.data;

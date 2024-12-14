@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { ITask, ITasksState } from './stor/taskSlice';
+import { ITask, ITasksState } from './store/taskSlice';
 import { saveToLocalStoragesRedux } from './localStorage/localStorageRedux';
 import { loadFromLocalStorage } from './localStorage/loadFromLocalStorage';
 import { keyForLocalStorage } from './general/constants/keyForLocalStorage';

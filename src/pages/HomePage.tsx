@@ -6,11 +6,11 @@ import { useState } from 'react';
 import React from 'react';
 import { TaskList } from '../components/TaskList';
 import { useSelector } from 'react-redux';
-import { ActiveTasks, selectFilter, selectTasks } from '../stor/selectors';
+import { ActiveTasks, selectFilter, selectTasks } from '../store/selectors';
 import { useDispatch } from 'react-redux';
 import { clearCompletedTasksRedux, saveToLocalStoragesRedux } from '../localStorage/localStorageRedux';
-import { TasksDispatch } from '../stor/taskStore';
-import { changeFilter, FilterTasks } from '../stor/taskSlice';
+import { TasksDispatch } from '../store/taskStore';
+import { changeFilter, FilterTasks } from '../store/taskSlice';
 
 export function HomePage() {
   const [taskText, setTaskText] = useState<string>('');
