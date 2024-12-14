@@ -19,17 +19,25 @@ export const TaskInput: React.FC<ITaskInputProps> = ({ taskText, setTaskText, ha
 
   return (
     <Input
-      data-testid='TaskInput'
+      inputProps={{ 'data-testid': 'taskInput' }}
       placeholder='What needs to be done?'
       value={taskText}
       onChange={handleInputChange}
       startAdornment={<ExpandMoreIcon sx={{ color: '#acacac' }} />}
       endAdornment={
         <Box display={'flex'} flexDirection={'row'} gap={'2px'}>
-          <IconButton onClick={handleClickAdd} sx={{ visibility: taskText ? 'visible' : 'hidden' }}>
+          <IconButton
+            onClick={handleClickAdd}
+            sx={{ visibility: taskText ? 'visible' : 'hidden' }}
+            data-testid='addTask'
+          >
             <AddIcon />
           </IconButton>
-          <IconButton onClick={handleClick} sx={{ visibility: taskText ? 'visible' : 'hidden' }}>
+          <IconButton
+            onClick={handleClick}
+            sx={{ visibility: taskText ? 'visible' : 'hidden' }}
+            data-testid='clearInput'
+          >
             <HighlightOff />
           </IconButton>
         </Box>

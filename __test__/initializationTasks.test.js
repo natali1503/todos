@@ -1,8 +1,7 @@
 import React from 'react';
 import App from '../src/App';
-import { store, screen, render } from './test-utils';
-import { dataInitial, initializeTasks } from '../src/init';
-import { loadFromLocalStorage } from '../src/localStorage/loadFromLocalStorage';
+import { store, render } from './test-utils';
+import { dataInitial } from '../src/init';
 import { waitFor } from '@testing-library/react';
 
 const mockedStore = store();
