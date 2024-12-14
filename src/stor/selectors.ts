@@ -1,12 +1,13 @@
-import { loadFromLocalStorage } from '../localStorage/loadFromLocalStorage';
+import { useSelector } from 'react-redux';
+
 import { RootState } from '../stor/taskStore';
-import { ITasksState, StatusTask } from './taskSlice';
+import { StatusTask } from './taskSlice';
 
 export const selectTasks = (state: RootState) => state.tasks.data;
 export const selectFilter = (state: RootState) => state.tasks.filter;
 
-export const activeTasks = () => {
-  const task = loadFromLocalStorage<ITasksState>('todos');
+export const ActiveTasks = () => {
+  const task = useSelector((state: RootState) => state.tasks.data);
   if (!task) return 0;
-  return task.data.filter((taskItem) => taskItem.status === StatusTask.active).length;
+  return task.filter((taskItem) => taskItem.status === StatusTask.active).length;
 };
