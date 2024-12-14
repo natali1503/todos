@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import PropTypes from 'prop-types';
 
-import { rootReducer } from '../src/stor/taskStore';
+import { rootReducer } from '../src/store/taskStore';
 
 const store = ({ preloadedState } = {}) => configureStore({ reducer: rootReducer, preloadedState });
 
