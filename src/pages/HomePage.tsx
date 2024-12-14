@@ -3,7 +3,7 @@ import { FilterPanel } from '../components/FilterPanel';
 import { CustomButton } from '../components/elements/CustomButton';
 import { TaskInput } from '../components/TaskInput';
 import { useState } from 'react';
-
+import React from 'react';
 import { TaskList } from '../components/TaskList';
 import { useSelector } from 'react-redux';
 import { ActiveTasks, selectFilter, selectTasks } from '../stor/selectors';
@@ -52,7 +52,12 @@ export function HomePage() {
           </Typography>
         </Box>
         <Box display={'flex'} flexDirection={'column'} sx={{ backgroundColor: ' #fff' }}>
-          <TaskInput taskText={taskText} setTaskText={setTaskText} handleClickAdd={() => handleAddTask()} />
+          <TaskInput
+            data-testid='TaskInput'
+            taskText={taskText}
+            setTaskText={setTaskText}
+            handleClickAdd={() => handleAddTask()}
+          />
 
           {task.length === 0 ? <div>Not task</div> : <TaskList taskList={task} />}
 

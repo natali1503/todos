@@ -4,7 +4,7 @@ import { TaskItem } from './elements/TaskItem';
 import { useDispatch } from 'react-redux';
 import { changeTaskStatusRedux } from '../localStorage/localStorageRedux';
 import { TasksDispatch } from '../stor/taskStore';
-
+import React from 'react';
 interface ITaskListProps {
   taskList: ITask[];
 }

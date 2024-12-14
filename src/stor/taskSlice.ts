@@ -40,7 +40,7 @@ const initialState: IInitialState = {
   filter: FilterTasks.all,
 };
 const taskSlice = createSlice({
-  name: 'counter',
+  name: 'tasks',
   initialState,
   reducers: {
     changeFilter: (state, actions: PayloadAction<FilterTasks>) => {

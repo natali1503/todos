@@ -9,13 +9,13 @@ export const initializeTasks = createAsyncThunk<void, void, { state: { tasks: IT
   async (_, { getState, dispatch }) => {
     if (loadFromLocalStorage('todos')) return;
 
-    mockData.data.forEach((task) => {
+    dataInitial.data.forEach((task) => {
       dispatch(saveToLocalStoragesRedux(task.task));
     });
   }
 );
 
-export const mockData: ITasksState = {
+export const dataInitial: ITasksState = {
   data: [
     { idTask: '1', task: 'Деплой', status: StatusTask.completed },
     { idTask: '2', task: 'Дописать приложение', status: StatusTask.active },
