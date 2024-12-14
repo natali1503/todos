@@ -52,12 +52,7 @@ export function HomePage() {
           </Typography>
         </Box>
         <Box display={'flex'} flexDirection={'column'} sx={{ backgroundColor: ' #fff' }}>
-          <TaskInput
-            data-testid='TaskInput'
-            taskText={taskText}
-            setTaskText={setTaskText}
-            handleClickAdd={() => handleAddTask()}
-          />
+          <TaskInput taskText={taskText} setTaskText={setTaskText} handleClickAdd={() => handleAddTask()} />
 
           {task.length === 0 ? <div>Not task</div> : <TaskList taskList={task} />}
 

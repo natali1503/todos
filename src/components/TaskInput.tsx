@@ -19,6 +19,7 @@ export const TaskInput: React.FC<ITaskInputProps> = ({ taskText, setTaskText, ha
 
   return (
     <Input
+      data-testid='TaskInput'
       placeholder='What needs to be done?'
       value={taskText}
       onChange={handleInputChange}

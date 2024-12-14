@@ -4,12 +4,10 @@ import { store, screen, render } from './test-utils';
 import { dataInitial } from '../src/init';
 const mockedStore = store();
 const initialState = dataInitial;
-describe('', () => {
-  it('TaskInput', () => {});
+describe('TaskInput', () => {
   it('TaskInput display test', () => {
     render(<App />, initialState);
-
     const TaskInput = screen.queryByTestId('TaskInput');
-    expect(TaskInput).not.toBeInTheDocument();
+    expect(TaskInput).toBeInTheDocument();
   });
 });
