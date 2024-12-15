@@ -53,7 +53,14 @@ export function HomePage() {
     >
       <Box display={'flex'} flexDirection={'column'} alignItems={'center'} padding={'20px'}>
         <Logo />
-        <Box display={'flex'} flexDirection={'column'} sx={{ backgroundColor: ' #fff' }}>
+        <Box
+          display={'flex'}
+          flexDirection={'column'}
+          sx={{
+            backgroundColor: ' #fff',
+            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.2),0 25px 50px 0 rgba(0, 0, 0, 0.1)',
+          }}
+        >
           <TaskInput
             taskText={taskText}
             setTaskText={setTaskText}
