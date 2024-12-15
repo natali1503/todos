@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 
 import { RootState } from './taskStore';
-import { StatusTask } from './taskSlice';
+import { StatusTask } from '../general/tasks/StatusTask';
 
 export const selectTasks = (state: RootState) => state.tasks.data;
 export const selectFilter = (state: RootState) => state.tasks.filter;

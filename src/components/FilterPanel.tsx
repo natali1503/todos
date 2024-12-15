@@ -7,8 +7,9 @@ import {
   loadToLocalStorageRedux as selectAllTasks,
 } from '../localStorage/localStorageRedux';
 import { TasksDispatch } from '../store/taskStore';
-import { FilterTasks } from '../store/taskSlice';
+
 import React from 'react';
+import { FilterTasks } from '../general/tasks/FilterTasks';
 interface IFilterPanelProps {
   activeBtn: FilterTasks;
   onClick: (filter: FilterTasks) => void;

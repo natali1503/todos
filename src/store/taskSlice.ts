@@ -9,22 +9,10 @@ import {
   saveToLocalStoragesRedux,
 } from '../localStorage/localStorageRedux';
 import { keyForLocalStorage } from '../general/constants/keyForLocalStorage';
+import { ITask } from '../general/tasks/ITask';
+import { FilterTasks } from '../general/tasks/FilterTasks';
+import { StatusTask } from '../general/tasks/StatusTask';
 
-export enum StatusTask {
-  active = 'active',
-  completed = 'completed',
-}
-export enum FilterTasks {
-  all = 'All',
-  completed = 'Completed',
-  active = 'Active',
-}
-export interface ITask {
-  idTask: string;
-  task: string;
-  status: StatusTask;
-}
-export type IdTaskType = ITask['idTask'];
 export interface ITasksState {
   data: ITask[];
 }
