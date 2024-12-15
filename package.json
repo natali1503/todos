@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "start": "vite",
     "test": "jest",
-    "istart": "npm i && npm run start",
+    "install-and-start": "npm i && npm run start",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
