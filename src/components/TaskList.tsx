@@ -6,14 +6,16 @@ import { TasksDispatch } from '../store/taskStore';
 import React from 'react';
 import { ITask } from '../general/tasks/ITask';
 import { StatusTask } from '../general/tasks/StatusTask';
-import { changeStatusTask } from '../store/taskSlice';
+import { changeFilter, changeStatusTask } from '../store/taskSlice';
+import { useSelector } from 'react-redux';
+import { selectFilter } from '../store/selectors';
 interface ITaskListProps {
   taskList: ITask[];
 }
 
 export const TaskList: React.FC<ITaskListProps> = ({ taskList }) => {
   const dispatch = useDispatch<TasksDispatch>();
-
+  const filter = useSelector(selectFilter);
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       {taskList.map((taskItem) => (
@@ -24,6 +26,7 @@ export const TaskList: React.FC<ITaskListProps> = ({ taskList }) => {
           checked={taskItem.status === StatusTask.completed ? true : false}
           onChange={(id) => {
             dispatch(changeStatusTask(id));
+            dispatch(changeFilter(filter));
           }}
         />
       ))}

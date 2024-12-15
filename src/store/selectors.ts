@@ -1,7 +1,7 @@
 import { RootState } from './taskStore';
 import { ITasksState } from './taskSlice';
 import { StatusTask } from '../general/tasks/StatusTask';
-import { loadFromLocalStorage } from '../localStorage/loadFromLocalStorage';
+import { loadFromLocalStorage } from '../general/localStorage/loadFromLocalStorage';
 import { keyForLocalStorage } from '../general/constants/keyForLocalStorage';
 
 export const selectTasks = (state: RootState) => state.tasks.data;

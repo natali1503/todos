@@ -1,10 +1,10 @@
 import { ITasksState } from './store/taskSlice';
-import { loadFromLocalStorage } from './localStorage/loadFromLocalStorage';
+import { loadFromLocalStorage } from './general/localStorage/loadFromLocalStorage';
 import { keyForLocalStorage } from './general/constants/keyForLocalStorage';
 
-import { saveToLocalStorage } from './localStorage/saveToLocalStorage';
-import { StatusTask } from './general/tasks/StatusTask';
+import { saveToLocalStorage } from './general/localStorage/saveToLocalStorage';
 import { ITask } from './general/tasks/ITask';
+import { newTask } from './general/tasks/newTask';
 
 export const dataInitial: { data: Pick<ITask, 'task'>[] } = {
   data: [{ task: 'Деплой' }, { task: 'Дописать приложение' }, { task: 'Написать тесты' }],
@@ -15,11 +15,7 @@ export function init(isInitialData: boolean = true): ITask[] | [] {
 
   if (!dataFromLocalStorage) {
     if (isInitialData) {
-      const temp: ITask[] = dataInitial.data.map((task) => ({
-        idTask: `${Date.now()}-${Math.floor(Math.random() * 10000)}`,
-        task: task.task,
-        status: StatusTask.active,
-      }));
+      const temp: ITask[] = dataInitial.data.map((task) => newTask(task.task));
       saveToLocalStorage(keyForLocalStorage.todos, { data: temp });
       return temp;
     }

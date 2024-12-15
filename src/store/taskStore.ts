@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import taskReducer from './taskSlice';
-import { saveToLocalStorage } from '../localStorage/saveToLocalStorage';
+import { saveToLocalStorage } from '../general/localStorage/saveToLocalStorage';
 import { keyForLocalStorage } from '../general/constants/keyForLocalStorage';
 
 export const rootReducer = {
@@ -8,11 +8,13 @@ export const rootReducer = {
 };
 export type RootState = ReturnType<typeof store.getState>;
 export type TasksDispatch = typeof store.dispatch;
+const permittedOperations = ['tasks/addTask', 'tasks/changeStatusTask', 'tasks/clearCompleted'];
 
 export const saveTodosMiddleware = (storeAPI) => (next) => (action) => {
   const result = next(action);
   const state = storeAPI.getState();
-  if (action.type !== 'tasks/changeFilter') saveToLocalStorage(keyForLocalStorage.todos, { data: state.tasks.data });
+  if (permittedOperations.includes(action.type))
+    saveToLocalStorage(keyForLocalStorage.todos, { data: state.tasks.data });
 
   return result;
 };

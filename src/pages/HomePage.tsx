@@ -12,7 +12,7 @@ import { ActiveTasks, selectFilter, selectTasks } from '../store/selectors';
 import { TasksDispatch } from '../store/taskStore';
 import { addTask, changeFilter, clearCompleted } from '../store/taskSlice';
 import { FilterTasks } from '../general/tasks/FilterTasks';
-//фильтр на открытые задачи - полсле выполнения таска он не исчезает сразу
+
 export function HomePage() {
   const [taskText, setTaskText] = useState<string>('');
   const tasks = useSelector(selectTasks);
@@ -22,10 +22,12 @@ export function HomePage() {
 
   function handleClearCompleted() {
     dispatch(clearCompleted());
+    dispatch(changeFilter(filter));
   }
   function handleAddTask() {
     if (taskText.length === 0) return;
     dispatch(addTask(taskText));
+    dispatch(changeFilter(filter));
     setTaskText('');
   }
 
@@ -54,8 +56,18 @@ export function HomePage() {
         </Box>
         <Box display={'flex'} flexDirection={'column'} sx={{ backgroundColor: ' #fff' }}>
           <TaskInput taskText={taskText} setTaskText={setTaskText} handleClickAdd={() => handleAddTask()} />
-
-          {tasks.length === 0 ? <div>Not task</div> : <TaskList taskList={tasks} />}
+          {tasks.length === 0 ? (
+            <Box
+              display={'flex'}
+              flexDirection={'row'}
+              alignItems={'center'}
+              sx={{ paddingLeft: '15px', minHeight: '40px' }}
+            >
+              <Typography> {`No ${filter.toLowerCase()} tasks`}</Typography>
+            </Box>
+          ) : (
+            <TaskList taskList={tasks} />
+          )}
 
           <Box display={'flex'} flexDirection={'row'} gap={'40px'} alignItems={'center'} sx={{ margin: '10px 15px' }}>
             <Box minWidth={'max-content'}>
