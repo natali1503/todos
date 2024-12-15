@@ -22,6 +22,9 @@ export const TaskInput: React.FC<ITaskInputProps> = ({ taskText, setTaskText, ha
       inputProps={{ 'data-testid': 'taskInput' }}
       placeholder='What needs to be done?'
       value={taskText}
+      onKeyUp={(e) => {
+        if (e.key === 'Enter') handleClickAdd();
+      }}
       onChange={handleInputChange}
       startAdornment={<ExpandMoreIcon sx={{ color: '#acacac' }} />}
       endAdornment={
