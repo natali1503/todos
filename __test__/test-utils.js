@@ -4,9 +4,14 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import PropTypes from 'prop-types';
 
-import { rootReducer } from '../src/store/taskStore';
+import { rootReducer, saveTodosMiddleware } from '../src/store/taskStore';
 
-const store = ({ preloadedState } = {}) => configureStore({ reducer: rootReducer, preloadedState });
+const store = ({ preloadedState } = {}) =>
+  configureStore({
+    reducer: rootReducer,
+    preloadedState,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(saveTodosMiddleware),
+  });
 
 function render(ui, { initialState, ...renderOptions } = {}) {
   function Wrapper({ children }) {

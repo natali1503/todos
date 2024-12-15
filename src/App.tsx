@@ -1,15 +1,8 @@
 import { Box, CssBaseline } from '@mui/material';
 import { HomePage } from './pages/HomePage';
-import React, { useEffect } from 'react';
-import { initializeTasks } from './init';
-import { useDispatch } from 'react-redux';
-import { TasksDispatch } from './store/taskStore';
+import React from 'react';
+
 function App() {
-  const dispatch = useDispatch<TasksDispatch>();
-  useEffect(() => {
-    // Инициализация данных при запуске приложения
-    dispatch(initializeTasks());
-  }, [dispatch]);
   return (
     <Box>
       <CssBaseline />

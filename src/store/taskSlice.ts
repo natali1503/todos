@@ -1,17 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { loadFromLocalStorage } from '../localStorage/loadFromLocalStorage';
-import {
-  loadToLocalStorageRedux,
-  selectActiveTasksRedux,
-  selectCopmletedTasksRedux,
-  clearCompletedTasksRedux,
-  changeTaskStatusRedux,
-  saveToLocalStoragesRedux,
-} from '../localStorage/localStorageRedux';
 import { keyForLocalStorage } from '../general/constants/keyForLocalStorage';
 import { ITask } from '../general/tasks/ITask';
 import { FilterTasks } from '../general/tasks/FilterTasks';
 import { StatusTask } from '../general/tasks/StatusTask';
+import { init } from '../init';
 
 export interface ITasksState {
   data: ITask[];
@@ -20,12 +13,13 @@ export interface ITasksState {
 export const defaultTask: ITasksState = {
   data: [],
 };
+
 interface IInitialState extends ITasksState {
   filter: FilterTasks;
 }
 
 const initialState: IInitialState = {
-  data: loadFromLocalStorage<ITasksState>(keyForLocalStorage.todos)?.data || defaultTask.data,
+  data: init(),
   filter: FilterTasks.all,
 };
 const taskSlice = createSlice({
@@ -34,50 +28,45 @@ const taskSlice = createSlice({
   reducers: {
     changeFilter: (state, actions: PayloadAction<FilterTasks>) => {
       if (!state) return;
-      state.filter = actions.payload;
+      const dataFromLocalStorage = loadFromLocalStorage<ITasksState>(keyForLocalStorage.todos);
+      if (!dataFromLocalStorage) state.data = defaultTask.data;
+      else {
+        let temp: ITask[] = [];
+        if (actions.payload === FilterTasks.active) {
+          temp = dataFromLocalStorage.data.filter((taskItem) => taskItem.status === StatusTask.active);
+        } else if (actions.payload === FilterTasks.completed) {
+          temp = dataFromLocalStorage.data.filter((taskItem) => taskItem.status === StatusTask.completed);
+        } else temp = dataFromLocalStorage.data;
+        state.data = temp;
+        state.filter = actions.payload;
+      }
+    },
+    addTask: (state, action: PayloadAction<string>) => {
+      const newTask: ITask = {
+        idTask: `${Date.now()}-${Math.floor(Math.random() * 10000)}`,
+        task: action.payload,
+        status: StatusTask.active,
+      };
+      state.data.push(newTask);
+    },
+    changeStatusTask: (state, action: PayloadAction<string>) => {
+      state.data = state.data.map((taskItem) => {
+        if (taskItem.idTask === action.payload) {
+          const currentStatus = taskItem.status;
+          taskItem.status = currentStatus === StatusTask.active ? StatusTask.completed : StatusTask.active;
+        }
+        return taskItem;
+      });
+    },
+    clearCompleted: (state) => {
+      const dataFromLocalStorage = loadFromLocalStorage<ITasksState>(keyForLocalStorage.todos);
+      if (!dataFromLocalStorage) state.data = defaultTask.data;
+      else {
+        const temp: ITask[] = dataFromLocalStorage.data.filter((taskItem) => taskItem.status === StatusTask.active);
+        state.data = temp;
+      }
     },
   },
-  extraReducers: (builder) => {
-    builder.addCase(loadToLocalStorageRedux.fulfilled, (state, action) => {
-      state.data = action.payload.data;
-    });
-    builder.addCase(selectActiveTasksRedux.fulfilled, (state, action) => {
-      state.data = action.payload.data;
-    });
-    builder.addCase(selectCopmletedTasksRedux.fulfilled, (state, action) => {
-      state.data = action.payload.data;
-    });
-    builder.addCase(clearCompletedTasksRedux.fulfilled, (state, action) => {
-      if (state.filter === FilterTasks.all) state.data = action.payload.data;
-      else if (state.filter === FilterTasks.active) {
-        const filter = action.payload.data.filter((taskItem) => taskItem.status === StatusTask.active);
-        state.data = filter;
-      } else if (state.filter === FilterTasks.completed) {
-        const filter = action.payload.data.filter((taskItem) => taskItem.status === StatusTask.completed);
-        state.data = filter;
-      }
-    });
-    builder.addCase(changeTaskStatusRedux.fulfilled, (state, action) => {
-      if (state.filter === FilterTasks.all) state.data = action.payload.data;
-      else if (state.filter === FilterTasks.active) {
-        const filter = action.payload.data.filter((taskItem) => taskItem.status === StatusTask.active);
-        state.data = filter;
-      } else if (state.filter === FilterTasks.completed) {
-        const filter = action.payload.data.filter((taskItem) => taskItem.status === StatusTask.completed);
-        state.data = filter;
-      }
-    });
-    builder.addCase(saveToLocalStoragesRedux.fulfilled, (state, action) => {
-      if (state.filter === FilterTasks.all) state.data = action.payload.data;
-      else if (state.filter === FilterTasks.active) {
-        const filter = action.payload.data.filter((taskItem) => taskItem.status === StatusTask.active);
-        state.data = filter;
-      } else if (state.filter === FilterTasks.completed) {
-        const filter = action.payload.data.filter((taskItem) => taskItem.status === StatusTask.completed);
-        state.data = filter;
-      }
-    });
-  },
 });
-export const { changeFilter } = taskSlice.actions;
+export const { changeFilter, addTask, changeStatusTask, clearCompleted } = taskSlice.actions;
 export default taskSlice.reducer;

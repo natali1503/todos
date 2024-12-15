@@ -1,6 +1,6 @@
 import React from 'react';
 import App from '../src/App';
-import { store, render } from './test-utils';
+import { store, render, screen } from './test-utils';
 import { dataInitial } from '../src/init';
 import { waitFor } from '@testing-library/react';
 
@@ -12,25 +12,9 @@ const mockSetItem = jest.fn();
 const mockRemoveItem = jest.fn();
 
 describe('InitializationTasks', () => {
-  beforeEach(() => {
-    Object.defineProperty(window, 'localStorage', {
-      writable: true,
-      value: {
-        getItem: (...args) => mockGetItem(...args),
-        setItem: (...args) => mockSetItem(...args),
-        removeItem: (...args) => mockRemoveItem(...args),
-      },
-    });
-  });
-
-  afterEach(() => {
-    mockSetItem.mockClear();
-  });
-
   it('launching the app store is filled dataInitial', async () => {
     render(<App />, initialState);
-    await waitFor(() => {
-      expect(mockSetItem).toHaveBeenCalledTimes(dataInitial.data.length);
-    });
+    const taskItems = await waitFor(() => screen.getAllByTestId('taskItem'));
+    expect(taskItems.length).toBe(dataInitial.data.length);
   });
 });
