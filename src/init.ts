@@ -7,7 +7,7 @@ import { ITask } from './general/tasks/ITask';
 import { newTask } from './general/tasks/newTask';
 
 export const dataInitial: { data: Pick<ITask, 'task'>[] } = {
-  data: [{ task: 'Деплой' }, { task: 'Дописать приложение' }, { task: 'Написать тесты' }],
+  data: [{ task: 'Запастись мандаринами 🍊' }, { task: 'Нарядить елку 🎄' }],
 };
 
 export function init(isInitialData: boolean = true): ITask[] | [] {
