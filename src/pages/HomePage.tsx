@@ -1,30 +1,33 @@
+import React from 'react';
+import { useState } from 'react';
 import { Box, Typography } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 import { FilterPanel } from '../components/FilterPanel';
 import { CustomButton } from '../components/elements/CustomButton';
 import { TaskInput } from '../components/TaskInput';
-import { useState } from 'react';
-
 import { TaskList } from '../components/TaskList';
-import { useSelector } from 'react-redux';
-import { ActiveTasks, selectFilter, selectTasks } from '../stor/selectors';
-import { useDispatch } from 'react-redux';
-import { clearCompletedTasksRedux, saveToLocalStoragesRedux } from '../localStorage/localStorageRedux';
-import { TasksDispatch } from '../stor/taskStore';
-import { changeFilter, FilterTasks } from '../stor/taskSlice';
+
+import { ActiveTasks, selectFilter, selectTasks } from '../store/selectors';
+
+import { TasksDispatch } from '../store/taskStore';
+import { addTask, changeFilter, clearCompleted } from '../store/taskSlice';
+import { FilterTasks } from '../general/tasks/FilterTasks';
 
 export function HomePage() {
   const [taskText, setTaskText] = useState<string>('');
-  const task = useSelector(selectTasks);
+  const tasks = useSelector(selectTasks);
   const filter = useSelector(selectFilter);
   const dispatch = useDispatch<TasksDispatch>();
   const quantityActiveTasks = ActiveTasks();
 
   function handleClearCompleted() {
-    dispatch(clearCompletedTasksRedux());
+    dispatch(clearCompleted());
+    dispatch(changeFilter(filter));
   }
   function handleAddTask() {
     if (taskText.length === 0) return;
-    dispatch(saveToLocalStoragesRedux(taskText));
+    dispatch(addTask(taskText));
+    dispatch(changeFilter(filter));
     setTaskText('');
   }
 
@@ -53,12 +56,22 @@ export function HomePage() {
         </Box>
         <Box display={'flex'} flexDirection={'column'} sx={{ backgroundColor: ' #fff' }}>
           <TaskInput taskText={taskText} setTaskText={setTaskText} handleClickAdd={() => handleAddTask()} />
+          {tasks.length === 0 ? (
+            <Box
+              display={'flex'}
+              flexDirection={'row'}
+              alignItems={'center'}
+              sx={{ paddingLeft: '15px', minHeight: '40px' }}
+            >
+              <Typography> {`No ${filter.toLowerCase()} tasks`}</Typography>
+            </Box>
+          ) : (
+            <TaskList taskList={tasks} />
+          )}
 
-          {task.length === 0 ? <div>Not task</div> : <TaskList taskList={task} />}
-
-          <Box display={'flex'} flexDirection={'row'} gap={'40px'} alignItems={'center'} sx={{ margin: '0 10px' }}>
+          <Box display={'flex'} flexDirection={'row'} gap={'40px'} alignItems={'center'} sx={{ margin: '10px 15px' }}>
             <Box minWidth={'max-content'}>
-              <p>{quantityActiveTasks} items left</p>
+              <Typography>{quantityActiveTasks} items left</Typography>
             </Box>
 
             <FilterPanel activeBtn={filter} onClick={handleChangeFilter} />

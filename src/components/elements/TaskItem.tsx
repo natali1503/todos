@@ -1,8 +1,8 @@
 import { Checkbox, FormControlLabel } from '@mui/material';
-
+import React from 'react';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { IdTaskType } from '../../stor/taskSlice';
+import { IdTaskType } from '../../general/tasks/ITask';
 
 interface TaskItemProps {
   id: IdTaskType;
@@ -16,6 +16,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({ id, text, checked, onChange 
   };
   return (
     <FormControlLabel
+      data-testid={'taskItem'}
       control={
         <Checkbox
           onChange={handleOnChange}

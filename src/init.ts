@@ -1,24 +1,26 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { ITasksState } from './store/taskSlice';
+import { loadFromLocalStorage } from './general/localStorage/loadFromLocalStorage';
+import { keyForLocalStorage } from './general/constants/keyForLocalStorage';
 
-import { ITasksState, StatusTask } from './stor/taskSlice';
-import { saveToLocalStoragesRedux } from './localStorage/localStorageRedux';
-import { loadFromLocalStorage } from './localStorage/loadFromLocalStorage';
+import { saveToLocalStorage } from './general/localStorage/saveToLocalStorage';
+import { ITask } from './general/tasks/ITask';
+import { newTask } from './general/tasks/newTask';
 
-export const initializeTasks = createAsyncThunk<void, void, { state: { tasks: ITasksState } }>(
-  'tasks/initialize',
-  async (_, { getState, dispatch }) => {
-    if (loadFromLocalStorage('todos')) return;
-
-    mockData.data.forEach((task) => {
-      dispatch(saveToLocalStoragesRedux(task.task));
-    });
-  }
-);
-
-export const mockData: ITasksState = {
-  data: [
-    { idTask: '1', task: 'Деплой', status: StatusTask.completed },
-    { idTask: '2', task: 'Дописать приложение', status: StatusTask.active },
-    { idTask: '3', task: 'Написать тесты', status: StatusTask.active },
-  ],
+export const dataInitial: { data: Pick<ITask, 'task'>[] } = {
+  data: [{ task: 'Деплой' }, { task: 'Дописать приложение' }, { task: 'Написать тесты' }],
 };
+
+export function init(isInitialData: boolean = true): ITask[] | [] {
+  const dataFromLocalStorage = loadFromLocalStorage<ITasksState>(keyForLocalStorage.todos);
+
+  if (!dataFromLocalStorage) {
+    if (isInitialData) {
+      const temp: ITask[] = dataInitial.data.map((task) => newTask(task.task));
+      saveToLocalStorage(keyForLocalStorage.todos, { data: temp });
+      return temp;
+    }
+    return [];
+  }
+
+  return dataFromLocalStorage.data || [];
+}
