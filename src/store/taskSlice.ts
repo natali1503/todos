@@ -47,6 +47,14 @@ const taskSlice = createSlice({
         state.data = temp;
       }
     },
+    removeTask: (state, action: PayloadAction<string>) => {
+      const dataFromLocalStorage = loadFromLocalStorage<ITasksState>(keyForLocalStorage.todos);
+      if (!dataFromLocalStorage) state.data = defaultTask.data;
+      else {
+        const temp = dataFromLocalStorage.data.filter((taskItem) => taskItem.idTask !== action.payload);
+        state.data = temp;
+      }
+    },
     changeStatusTask: (state, action: PayloadAction<string>) => {
       const dataFromLocalStorage = loadFromLocalStorage<ITasksState>(keyForLocalStorage.todos);
       if (!dataFromLocalStorage?.data) state.data = defaultTask.data;
@@ -71,5 +79,5 @@ const taskSlice = createSlice({
     },
   },
 });
-export const { changeFilter, addTask, changeStatusTask, clearCompleted } = taskSlice.actions;
+export const { changeFilter, addTask, changeStatusTask, clearCompleted, removeTask } = taskSlice.actions;
 export default taskSlice.reducer;

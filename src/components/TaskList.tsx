@@ -6,7 +6,7 @@ import { TasksDispatch } from '../store/taskStore';
 import React from 'react';
 import { ITask } from '../general/tasks/ITask';
 import { StatusTask } from '../general/tasks/StatusTask';
-import { changeFilter, changeStatusTask } from '../store/taskSlice';
+import { changeFilter, changeStatusTask, removeTask } from '../store/taskSlice';
 import { useSelector } from 'react-redux';
 import { selectFilter } from '../store/selectors';
 interface ITaskListProps {
@@ -26,6 +26,10 @@ export const TaskList: React.FC<ITaskListProps> = ({ taskList }) => {
           checked={taskItem.status === StatusTask.completed ? true : false}
           onChange={(id) => {
             dispatch(changeStatusTask(id));
+            dispatch(changeFilter(filter));
+          }}
+          removeTask={(id) => {
+            dispatch(removeTask(id));
             dispatch(changeFilter(filter));
           }}
         />
