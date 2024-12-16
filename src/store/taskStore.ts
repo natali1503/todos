@@ -8,7 +8,13 @@ export const rootReducer = {
 };
 export type RootState = ReturnType<typeof store.getState>;
 export type TasksDispatch = typeof store.dispatch;
-const permittedOperations = ['tasks/addTask', 'tasks/changeStatusTask', 'tasks/clearCompleted', 'tasks/removeTask'];
+const permittedOperations = [
+  'tasks/addTask',
+  'tasks/changeStatusTask',
+  'tasks/clearCompleted',
+  'tasks/removeTask',
+  'tasks/changeTextTask',
+];
 //@ts-expect-error: for deploy
 export const saveTodosMiddleware = (storeAPI) => (next) => (action) => {
   const result = next(action);

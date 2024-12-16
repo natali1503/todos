@@ -74,7 +74,13 @@ export const TaskInput: React.FC<ITaskInputProps> = ({
           fontStyle: 'italic',
         },
         '&.MuiInput-root::after': {
-          borderBottom: '2px solid #c4b6b5',
+          borderBottom: '1px solid #c4b6b5',
+        },
+        '&.MuiInput-root::before ': {
+          borderBottomColor: '#cfc4c3',
+        },
+        '&:hover:not(.Mui-disabled, .Mui-error):before': {
+          borderBottom: '2px solid #9d9291',
         },
       }}
     />
