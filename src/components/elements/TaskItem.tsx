@@ -64,9 +64,14 @@ export const TaskItem: React.FC<TaskItemProps> = ({ id, text, checked, onChange,
         onBlur={handleChangeTextTask}
         onKeyUp={handleChangeTextTask}
         sx={{
+          border: 'none',
           width: '100%',
           '&.MuiInput-root::after': {
             borderBottom: '1px solid #c4b6b5',
+          },
+          '&.MuiInput-root::before ': {
+            border: 'none',
+            borderBottomColor: '#cfc4c3',
           },
           '&:hover:not(.Mui-disabled, .Mui-error):before': {
             borderBottom: '2px solid #c4b6b5',
