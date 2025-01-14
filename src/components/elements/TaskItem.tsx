@@ -37,6 +37,8 @@ export const TaskItem: React.FC<TaskItemProps> = ({ id, text, checked, onChange,
       dispatch(changeTextTask({ id, text: taskText }));
     }
   };
+  console.log(checked);
+
   return (
     <Box display={'flex'} flexDirection={'row'} sx={{ borderBottom: '1px solid #acacac' }}>
       <FormControlLabel
@@ -66,6 +68,8 @@ export const TaskItem: React.FC<TaskItemProps> = ({ id, text, checked, onChange,
         sx={{
           border: 'none',
           width: '100%',
+          color: checked ? 'rgba(0, 0, 0, 0.5)' : '#000',
+          textDecoration: checked ? 'line-through' : 'none',
           '&.MuiInput-root::after': {
             borderBottom: '1px solid #c4b6b5',
           },
