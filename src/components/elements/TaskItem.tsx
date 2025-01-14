@@ -37,7 +37,6 @@ export const TaskItem: React.FC<TaskItemProps> = ({ id, text, checked, onChange,
       dispatch(changeTextTask({ id, text: taskText }));
     }
   };
-  console.log(checked);
 
   return (
     <Box display={'flex'} flexDirection={'row'} sx={{ borderBottom: '1px solid #acacac' }}>
