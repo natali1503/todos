@@ -1,5 +1,4 @@
-import { ITask } from './ITask';
-import { StatusTask } from './StatusTask';
+import { ITask, StatusTask } from '../types/task';
 
 export function newTask(textTask: string): ITask {
   return {

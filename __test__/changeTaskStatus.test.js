@@ -22,9 +22,11 @@ describe('Change task status', () => {
     const taskItems = await waitFor(() => screen.getAllByTestId('taskItem'));
     const taskIteamForChangeStatus = taskItems[0];
     const checkboxTaskIteam = within(taskIteamForChangeStatus).getByRole('checkbox');
-    const clearCompletedBtn = screen.getByText('Clear completed');
+    const clearCompletedBtn = screen.getByText('Очистить завершенные');
     await userEvent.click(checkboxTaskIteam);
     await userEvent.click(clearCompletedBtn);
-    expect(taskIteamForChangeStatus).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(taskIteamForChangeStatus).not.toBeInTheDocument();
+    });
   });
 });

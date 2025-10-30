@@ -5,7 +5,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { IdTaskType } from '../../general/tasks/ITask';
+import { IdTaskType } from '../../types/task';
 import { TasksDispatch } from '../../store/taskStore';
 import { changeTextTask } from '../../store/taskSlice';
 
@@ -37,7 +37,6 @@ export const TaskItem: React.FC<TaskItemProps> = ({ id, text, checked, onChange,
       dispatch(changeTextTask({ id, text: taskText }));
     }
   };
-  console.log(checked);
 
   return (
     <Box display={'flex'} flexDirection={'row'} sx={{ borderBottom: '1px solid #acacac' }}>

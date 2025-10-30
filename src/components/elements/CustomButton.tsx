@@ -1,16 +1,19 @@
 import React from 'react';
 import Button from '@mui/material/Button';
+
 interface ICustomButtonProps {
   text: string;
   cb: () => void;
   status?: boolean;
+  disabled?: boolean;
 }
 
-export const CustomButton: React.FC<ICustomButtonProps> = ({ text, cb, status = false }) => {
+export const CustomButton: React.FC<ICustomButtonProps> = ({ text, cb, status = false, disabled = false }) => {
   return (
     <Button
       onClick={cb}
       variant={status ? 'outlined' : 'text'}
+      disabled={disabled}
       sx={{
         textTransform: 'none',
         padding: '5px',
