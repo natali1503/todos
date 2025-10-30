@@ -1,12 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { loadFromLocalStorage } from '../general/localStorage/loadFromLocalStorage';
-import { keyForLocalStorage } from '../general/constants/keyForLocalStorage';
-import { ITask } from '../general/tasks/ITask';
-import { FilterTasks } from '../general/tasks/FilterTasks';
-import { StatusTask } from '../general/tasks/StatusTask';
+
+import { ITask, FilterTasks, FilterTasksType, StatusTask } from '../types/task';
 import { init } from '../init';
-import { newTask } from '../general/tasks/newTask';
-import { filteredTasks } from '../general/tasks/filteringTasks';
+import { newTask } from '../models/task';
 
 export interface ITasksState {
   data: ITask[];
@@ -17,7 +13,7 @@ export const defaultTask: ITasksState = {
 };
 
 interface IInitialState extends ITasksState {
-  filter: FilterTasks;
+  filter: FilterTasksType;
 }
 
 const initialState: IInitialState = {
@@ -28,66 +24,29 @@ const taskSlice = createSlice({
   name: 'tasks',
   initialState,
   reducers: {
-    changeFilter: (state, actions) => {
-      if (!state) return;
-      const dataFromLocalStorage = loadFromLocalStorage<ITasksState>(keyForLocalStorage.todos);
-      if (!dataFromLocalStorage) state.data = defaultTask.data;
-      else {
-        if (actions.payload === FilterTasks.all) state.data = dataFromLocalStorage.data;
-        else state.data = filteredTasks(dataFromLocalStorage.data, actions.payload);
-        state.filter = actions.payload;
-      }
+    changeFilter: (state, action: PayloadAction<FilterTasksType>) => {
+      state.filter = action.payload;
     },
     addTask: (state, action: PayloadAction<string>) => {
-      const dataFromLocalStorage = loadFromLocalStorage<ITasksState>(keyForLocalStorage.todos);
-      if (!dataFromLocalStorage) state.data = defaultTask.data;
-      else {
-        const task: ITask = newTask(action.payload);
-        const temp = [...dataFromLocalStorage.data, task];
-        state.data = temp;
-      }
+      const task: ITask = newTask(action.payload);
+      state.data.push(task);
     },
     removeTask: (state, action: PayloadAction<string>) => {
-      const dataFromLocalStorage = loadFromLocalStorage<ITasksState>(keyForLocalStorage.todos);
-      if (!dataFromLocalStorage) state.data = defaultTask.data;
-      else {
-        const temp = dataFromLocalStorage.data.filter((taskItem) => taskItem.idTask !== action.payload);
-        state.data = temp;
-      }
+      state.data = state.data.filter((taskItem) => taskItem.idTask !== action.payload);
     },
     changeStatusTask: (state, action: PayloadAction<string>) => {
-      const dataFromLocalStorage = loadFromLocalStorage<ITasksState>(keyForLocalStorage.todos);
-      if (!dataFromLocalStorage?.data) state.data = defaultTask.data;
-      else {
-        const temp = dataFromLocalStorage.data.map((taskItem) => {
-          if (taskItem.idTask === action.payload) {
-            const currentStatus = taskItem.status;
-            taskItem.status = currentStatus === StatusTask.active ? StatusTask.completed : StatusTask.active;
-          }
-          return taskItem;
-        });
-        state.data = temp;
+      const task = state.data.find((taskItem) => taskItem.idTask === action.payload);
+      if (task) {
+        task.status = task.status === StatusTask.active ? StatusTask.completed : StatusTask.active;
       }
     },
     clearCompleted: (state) => {
-      const dataFromLocalStorage = loadFromLocalStorage<ITasksState>(keyForLocalStorage.todos);
-      if (!dataFromLocalStorage) state.data = defaultTask.data;
-      else {
-        const temp: ITask[] = dataFromLocalStorage.data.filter((taskItem) => taskItem.status === StatusTask.active);
-        state.data = temp;
-      }
+      state.data = state.data.filter((taskItem) => taskItem.status === StatusTask.active);
     },
     changeTextTask: (state, action: PayloadAction<{ id: string; text: string }>) => {
-      const dataFromLocalStorage = loadFromLocalStorage<ITasksState>(keyForLocalStorage.todos);
-      if (!dataFromLocalStorage) state.data = defaultTask.data;
-      else {
-        const temp = dataFromLocalStorage.data.map((taskItem) => {
-          if (taskItem.idTask === action.payload.id) {
-            taskItem.task = action.payload.text;
-            return taskItem;
-          } else return taskItem;
-        });
-        state.data = temp;
+      const task = state.data.find((taskItem) => taskItem.idTask === action.payload.id);
+      if (task) {
+        task.task = action.payload.text;
       }
     },
   },

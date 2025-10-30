@@ -5,7 +5,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { IdTaskType } from '../../general/tasks/ITask';
+import { IdTaskType } from '../../types/task';
 import { TasksDispatch } from '../../store/taskStore';
 import { changeTextTask } from '../../store/taskSlice';
 
