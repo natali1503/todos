@@ -16,7 +16,7 @@ describe('TaskInput', () => {
   it('TaskInput display with correct placeholder', async () => {
     render(<App />, {});
     await waitFor(() => {
-      const taskInput = screen.getByPlaceholderText('What needs to be done?');
+      const taskInput = screen.getByPlaceholderText('Что должно быть сделано?');
       expect(taskInput).toBeInTheDocument();
     });
   });
@@ -40,7 +40,7 @@ describe('TaskInput', () => {
     render(<App />, {});
     const taskInput = await waitFor(() => screen.getByTestId('taskInput'));
     await userEvent.type(taskInput, 'Test task');
-    const addTaskBtn = screen.getByTestId('addTask');
+    const addTaskBtn = await screen.getByTestId('addTask');
     expect(addTaskBtn).toBeInTheDocument();
   });
   it('After clearing input the add button is unavailable', async () => {
@@ -49,7 +49,7 @@ describe('TaskInput', () => {
     await userEvent.type(taskInput, 'Test task');
     const clearInputBtn = screen.getByTestId('clearInput');
     await userEvent.click(clearInputBtn);
-    const addTaskBtn = screen.getByTestId('addTask');
-    expect(getComputedStyle(addTaskBtn).visibility).toBe('hidden');
+    const addTaskBtn = screen.queryByTestId('addTask');
+    expect(addTaskBtn).not.toBeInTheDocument();
   });
 });

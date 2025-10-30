@@ -1,14 +1,13 @@
 import React from 'react';
 
-import { ITask } from '../general/tasks/ITask';
+import { ITask } from '../../types/task';
 import { Box, Typography } from '@mui/material';
 import { TaskList } from './TaskList';
 
 interface ITasksProps {
   taskList: ITask[];
-  filter: string;
 }
-export const Tasks: React.FC<ITasksProps> = ({ taskList, filter }) => {
+export const Tasks: React.FC<ITasksProps> = ({ taskList }) => {
   const isTask = taskList.length === 0;
 
   return (
@@ -20,7 +19,7 @@ export const Tasks: React.FC<ITasksProps> = ({ taskList, filter }) => {
           alignItems={'center'}
           sx={{ paddingLeft: '15px', minHeight: '40px' }}
         >
-          <Typography> {`No ${filter.toLowerCase()} tasks`}</Typography>
+          <Typography>Нет задач</Typography>
         </Box>
       )}
       {!isTask && <TaskList taskList={taskList} />}

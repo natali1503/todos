@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
+
 interface IQuantityActiveTasks {
   quantityActiveTasks: number;
 }
@@ -7,7 +8,7 @@ interface IQuantityActiveTasks {
 export const QuantityActiveTasks: React.FC<IQuantityActiveTasks> = ({ quantityActiveTasks }) => {
   return (
     <Box minWidth={'max-content'}>
-      <Typography>{quantityActiveTasks} items left</Typography>
+      <Typography>Осталось дел {quantityActiveTasks}</Typography>
     </Box>
   );
 };
